@@ -26,3 +26,29 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
+task(test2).doLast{
+    testFile()
+}
+
+void testFile(){
+    println("文件方法测试")
+    println("使用两个参数")
+    def file1 = new File("doc/doc")
+    file1.eachLine {line,lineNo->
+        println("${lineNo} ${line}")
+    }
+    println("使用1个参数")
+    def file2 = new File("README.md")
+    file2.eachLine {line->
+//        println("${line}")
+        println(line)
+    }
+}
+
+
+
+
+
+
+
