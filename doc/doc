@@ -2,3 +2,23 @@
 Groovy的文档:查询闭包的参数
     http://www.groovy-lang.org/api.html
     http://docs.groovy-lang.org/latest/html/groovy-jdk/index-all.html
+
+学习 Groovy（http://docs.groovy-lang.org/）
+学习 Gradle DSL（https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html）
+学习 Android DSL和Task（http://google.github.io/android-gradle-dsl/current/index.html）
+
+练习网站:
+https://blog.csdn.net/zhaoyanjun6/article/details/76408024?readlog
+
+
+gradlew 命令
+查看项目所有默认自带的 task，不包括自定义 task    gradlew tasks
+查看所有 task (默认 task + 自定义task)   gradlew tasks –all
+查看某个 task 的相关信息,这些结果包含了任务的路径、类型以及描述信息等    gradlew help –task taskName
+查看 gradle 版本  gradlew -version
+
+gradle环境变量配置,这样就不需要在android studio 中运行工程了，AS中需要使用gradlew指令
+http://services.gradle.org/distributions/   找到一个all的版本
+然后配置
+GRADLE_HOME D:\soft\gradle-4.3-all
+配置PATH  D:\soft\gradle-4.3-all\gradle-4.3\bin
