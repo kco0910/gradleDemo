@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+apply from :"../test.gradle"
+//apply from :"../base.gradle"
+//apply from :"../file.gradle"
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -27,89 +29,21 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
 
-task copyTask(type:Copy){//type 类似于extends
-    println("copyTask")
-    from 'E:\\copy'
-    into 'E:\\copy1'
+task("oneTask").doLast {
+    println("oneTask")
+}
+//将copyTask添加到assembleRelease后执行
+//不能直接使用copyTask.dependsOn assembleRelease,因为assembleRelease是动态生成的，
+// 没有办法提前设定 assembleRelease 的依赖关系
+//执行 gradlew copyTask 则会先执行assembleRelease,再执行copyTask
+//如果不使用此方法，则可以gradlew assembleRelease copyTask
+tasks.whenTaskAdded {
+    task ->
+        if (task.name.equals("assembleRelease")){
+            oneTask.dependsOn assembleRelease
+        }
 }
 
-task copyTask2(type:Copy){
-    println("copyTask2")
-    from 'E:\\copy','E:\\fenxi\\2018-1-29'
-    into 'E:\\copy1'
-}
-
-task copyTask3(type:Copy){
-    println("copyTask3")
-    from 'E:\\copy'
-    into 'E:\\copy1'
-    include "*.apk" //只复制apk文件
-}
-
-task copyTask4(type: Copy){//复制apk文件，单不复制ee.apk
-    println("copyTask4")
-    from 'E:\\copy'
-    into 'E:\\copy1'
-    include "*.apk"
-    exclude "ee.apk"
-}
-
-task copyTask5(type: Copy){//复制apk文件，然后将一个文件改名,改名后如果文件名冲突，会覆盖文件
-    println("copyTask5")
-    from 'E:\\copy'
-    into 'E:\\copy1'
-    rename("ee.apk","cc.apk")
-}
-
-task delTask(type: Delete){ //删除目录及文件
-    println("delTask")
-    delete("E:\\copy1")
-}
-
-
-
-//task mTask2{} 在任何task执行的时候就会执行
-
-task (mTask3).doFirst{ //在其他task任务执行前执行
-    println("mTask3")
-}
-
-task(test2).doLast{ //在其他task任务执行后执行
-    testFile()
-}
-
-project.task("test4").doLast{ //相当于.doLast
-    println("test4")
-}
-//定义一个名字为test5的task ,分组为fj,描述："我的task",依赖于test2,task4
-project.task("test5",group: "fj",description: "我的task",dependsOn: ["test2","test4"]).doLast {
-    println("test5")
-}
-project.task("test5").doLast {
-    description ="我的task"
-    group = 'fj'
-    dependsOn = ["test2","test4"]
-}
-
-
-test4.mustRunAfter test2 //运行test4之前先运行test2, 执行指令 gradlew test4 test2
-
-
-
-void testFile(){
-    println("文件方法测试")
-    println("使用两个参数")
-    def file1 = new File("doc/doc")
-    file1.eachLine {line,lineNo->
-        println("${lineNo} ${line}")
-    }
-    println("使用1个参数")
-    def file2 = new File("README.md")
-    file2.eachLine {line->
-//        println("${line}")
-        println(line)
-    }
-}
 
 
 

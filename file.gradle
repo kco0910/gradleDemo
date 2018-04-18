@@ -1,0 +1,57 @@
+task copyTask(type:Copy){//type 类似于extends
+    println("copyTask")
+    from 'E:\\copy'
+    into 'E:\\copy1'
+}
+
+task copyTask2(type:Copy){
+    println("copyTask2")
+    from 'E:\\copy','E:\\fenxi\\2018-1-29'
+    into 'E:\\copy1'
+}
+
+task copyTask3(type:Copy){
+    println("copyTask3")
+    from 'E:\\copy'
+    into 'E:\\copy1'
+    include "*.apk" //只复制apk文件
+}
+
+task copyTask4(type: Copy){//复制apk文件，单不复制ee.apk
+    println("copyTask4")
+    from 'E:\\copy'
+    into 'E:\\copy1'
+    include "*.apk"
+    exclude "ee.apk"
+}
+
+task copyTask5(type: Copy){//复制apk文件，然后将一个文件改名,改名后如果文件名冲突，会覆盖文件
+    println("copyTask5")
+    from 'E:\\copy'
+    into 'E:\\copy1'
+    rename("ee.apk","cc.apk")
+}
+
+task delTask(type: Delete){ //删除目录及文件
+    println("delTask")
+    delete("E:\\copy1")
+}
+
+task(fileTask).doLast{ //在其他task任务执行后执行
+    testFile()
+}
+
+void testFile(){
+    println("文件方法测试")
+    println("使用两个参数")
+    def file1 = new File("doc/doc")
+    file1.eachLine {line,lineNo->
+        println("${lineNo} ${line}")
+    }
+    println("使用1个参数")
+    def file2 = new File("README.md")
+    file2.eachLine {line->
+//        println("${line}")
+        println(line)
+    }
+}

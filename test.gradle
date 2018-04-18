@@ -1,0 +1,15 @@
+//传值获取属性
+task("test1").doLast {
+    //传参gradlew test1 -PyouName=haha -Page=8
+    println("名字是:"+(project.hasProperty("youName")?project.properties.get("youName"):"fj"))
+    println "年龄是:"+ project.properties.get("age")
+}
+//从根目录的ext中获取自定义属性
+task("test2").doLast {
+    println "名字是:"+rootProject.ext.youName+",年龄是:"+rootProject.ext.age
+}
+
+
+
+
+

@@ -1,0 +1,22 @@
+//task mTask2{} 在任何task执行的时候就会执行
+
+task (base1).doFirst{ //在其他task任务执行前执行
+    println("base1")
+}
+
+project.task("base3").doLast{ //相当于.doLast
+    println("base3")
+}
+//定义一个名字为base4的task ,分组为fj,描述："我的task",依赖于base1,base3
+project.task("base4",group: "fj",description: "我的task",dependsOn: ["base1","base3"]).doLast {
+    println("base4")
+}
+project.task("base5").doLast {
+    description ="我的task"
+    group = 'fj'
+    dependsOn = ["test2","test4"]
+}
+
+
+base3.mustRunAfter base1 //运行base3之前先运行base1, 执行指令 gradlew base3 base1
+
